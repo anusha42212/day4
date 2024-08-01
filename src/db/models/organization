@@ -1,0 +1,70 @@
+
+
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelizeconnection from "../config";
+
+
+interface OrganizationAttributes {
+  id: number;
+  name: string;
+  address: string;
+  phoneNumber: string;
+  email: string;
+  website?: string; 
+}
+
+
+export interface OrganizationInput extends Optional<OrganizationAttributes, 'id'> {}
+export interface OrganizationOutput extends Required<OrganizationAttributes> {}
+
+
+class Organization extends Model<OrganizationAttributes, OrganizationInput> implements OrganizationAttributes {
+    public id!: number;
+    public name!: string;
+    public address!: string;
+    public phoneNumber!: string;
+    public email!: string;
+    public website: string;
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
+    public readonly deletedAt!: Date;
+  }
+  Organization.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      website: {
+        type: DataTypes.STRING,
+        allowNull: true, 
+      },
+    },
+    {
+      sequelize: sequelizeconnection,
+      tableName: 'organizations', 
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+  
+  export default Organization;
+  
